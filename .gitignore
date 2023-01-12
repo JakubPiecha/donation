@@ -1,7 +1,7 @@
 # Virtualenv
 # http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
-
-
+.idea/
+.idea
 .Python
 [Bb]in
 [Ii]nclude
@@ -22,7 +22,6 @@ __pycache__/
 *.so
 
 # Distribution / packaging
-.Python
 build/
 develop-eggs/
 dist/
