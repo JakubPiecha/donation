@@ -1,7 +1,7 @@
 # Virtualenv
 # http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
-
-
+.idea/
+.idea
 .Python
 [Bb]in
 [Ii]nclude
@@ -22,7 +22,6 @@ __pycache__/
 *.so
 
 # Distribution / packaging
-.Python
 build/
 develop-eggs/
 dist/
@@ -193,6 +192,9 @@ media
 # Gradle
 .idea/**/gradle.xml
 .idea/**/libraries
+
+staticfiles
+env/.env
 
 # Gradle and Maven with auto-import
 # When using Gradle or Maven with auto-import, you should exclude module files,
