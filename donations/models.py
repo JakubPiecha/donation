@@ -16,7 +16,8 @@ class Institution(models.Model):
     type = models.IntegerField(choices={
         (1, 'fundacja'),
         (2, 'organizacja pozarządowa'),
-        (3, 'zbiórka lokalna')}, default=1)
+        (3, 'zbiórka lokalna')},
+        default=1)
     categories = models.ManyToManyField('Category')
 
     def __str__(self):

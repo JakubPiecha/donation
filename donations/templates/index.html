@@ -95,33 +95,39 @@
                 się zajmują, komu pomagają i czego potrzebują.</p>
 
             <ul class="help--slides-items">
-                {% for institution in institutions %}
-                    {% if institution.type == 1 %}
-                        <li>
-                        <div class="col">
-                            <div class="title">{{ institution.name }}</div>
-                            <div class="subtitle">{{ institution.description }}</div>
-                        </div>
+                {% for institution in foundations %}
+                    <li>
+                    <div class="col">
+                        <div class="title">{{ institution.name }}</div>
+                        <div class="subtitle">{{ institution.description }}</div>
+                    </div>
 
-                        <div class="col">
-                            <div class="text">
-                                {% for id, values in institution.categories.values_list %}
-                                    {{ values }},
-                                {% endfor %}</div>
-                        </div>
-                    {% endif %}
+                    <div class="col">
+                        <div class="text">
+                            {% for id, values in institution.categories.values_list %}
+                                {{ values }},
+                            {% endfor %}</div>
+                    </div>
                 {% endfor %}
                 </li>
             </ul>
-
-            <!-- Pagination
-            <ul class="help--slides-pagination">
-              <li><a href="#" class="btn btn--small btn--without-border active" data-page="1">1</a></li>
-              <li><a href="#" class="btn btn--small btn--without-border" data-page="2">2</a></li>
-              <li><a href="#" class="btn btn--small btn--without-border" data-page="3">3</a></li>
-            </ul>
-            -->
+            <div class="help--slides-pagination">
+                <ul class="help--buttons">
+                    {% if foundations.has_previous %}
+                        <li><a href="?page1={{ foundations.previous_page_number }}#help"
+                               class="btn btn--small btn--without-border">Wstecz</a></li>
+                    {% endif %}
+                    <li class="btn btn--small btn--without-border active ">Strona {{ foundations.number }}
+                        z {{ foundations.paginator.num_pages }}</li>
+                    {% if foundations.has_next %}
+                        <li><a href="?page1={{ foundations.next_page_number }}#help"
+                               class="btn btn--small btn--without-border"
+                               data-page="3">Następna</a></li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
+
 
         <!-- SLIDE 2 -->
         <div class="help--slides" data-id="2">
@@ -131,65 +137,74 @@
                 quos suscipit corporis!
             </p>
             <ul class="help--slides-items">
-                {% for institution in institutions %}
-                    {% if institution.type == 2 %}
-                        <li>
-                        <div class="col">
-                            <div class="title">{{ institution.name }}</div>
-                            <div class="subtitle">{{ institution.description }}</div>
-                        </div>
+                {% for institution in organizations %}
+                    <li>
+                    <div class="col">
+                        <div class="title">{{ institution.name }}</div>
+                        <div class="subtitle">{{ institution.description }}</div>
+                    </div>
 
-                        <div class="col">
-                            <div class="text">
-                                {% for id, values in institution.categories.values_list %}
-                                    {{ values }},
-                                {% endfor %}</div>
-                        </div>
-                    {% endif %}
+                    <div class="col">
+                        <div class="text">
+                            {% for id, values in institution.categories.values_list %}
+                                {{ values }},
+                            {% endfor %}</div>
+                    </div>
                 {% endfor %}
                 </li>
             </ul>
 
-            <!-- Pagination
-            <ul class="help--slides-pagination">
-              <li><a href="#" class="btn btn--small btn--without-border active" data-page="1">1</a></li>
-              <li><a href="#" class="btn btn--small btn--without-border" data-page="2">2</a></li>
-              <li><a href="#" class="btn btn--small btn--without-border" data-page="3">3</a></li>
-              <li><a href="#" class="btn btn--small btn--without-border" data-page="4">4</a></li>
-              <li><a href="#" class="btn btn--small btn--without-border" data-page="5">5</a></li>
-            </ul>
-            -->
+            <div class="help--slides-pagination">
+                <ul class="help--buttons" data-id="2">
+                    {% if organizations.has_previous %}
+                        <li><a href="?page2={{ organizations.previous_page_number }}#help"
+                               class="btn btn--small btn--without-border">Wstecz</a></li>
+                    {% endif %}
+                    <li class="btn btn--small btn--without-border active ">Strona {{ organizations.number }}
+                        z {{ organizations.paginator.num_pages }}</li>
+                    {% if organizations.has_next %}
+                        <li><a href="?page2={{ organizations.next_page_number }}#help"
+                               class="btn btn--small btn--without-border"
+                               >Następna</a></li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
 
-        <!-- SLIDE 3 -->
+
         <div class="help--slides" data-id="3">
             <p>Lorem ipsum dolor sit amet, his ocurreret persequeris ea, ad utinam laudem duo. Verterem adipisci
                 partiendo eos ne, ea his reque quaeque recteque, ne quo lobortis intellegam.</p>
             <ul class="help--slides-items">
-                {% for institution in institutions %}
-                    {% if institution.type == 3 %}
-                        <li>
-                        <div class="col">
-                            <div class="title">{{ institution.name }}</div>
-                            <div class="subtitle">{{ institution.description }}</div>
-                        </div>
-                        <div class="col">
-                            <div class="text">
-                                {% for id, values in institution.categories.values_list %}
-                                    {{ values }},
-                                {% endfor %}</div>
-                        </div>
-                    {% endif %}
+                {% for institution in rebounds %}
+                    <li>
+                    <div class="col">
+                        <div class="title">{{ institution.name }}</div>
+                        <div class="subtitle">{{ institution.description }}</div>
+                    </div>
+                    <div class="col">
+                        <div class="text">
+                            {% for id, values in institution.categories.values_list %}
+                                {{ values }},
+                            {% endfor %}</div>
+                    </div>
                 {% endfor %}
                 </li>
             </ul>
-
-            <!-- Pagination
-            <ul class="help--slides-pagination">
-              <li><a href="#" class="btn btn--small btn--without-border active" data-page="1">1</a></li>
-              <li><a href="#" class="btn btn--small btn--without-border" data-page="2">2</a></li>
-            </ul>
-            -->
+            <div class="help--slides-pagination">
+                <ul class="help--buttons">
+                    {% if rebounds.has_previous %}
+                        <li><a href="?page3={{ rebounds.previous_page_number }}#help"
+                               class="btn btn--small btn--without-border">Wstecz</a></li>
+                    {% endif %}
+                    <li class="btn btn--small btn--without-border active ">Strona {{ rebounds.number }}
+                        z {{ rebounds.paginator.num_pages }}</li>
+                    {% if rebounds.has_next %}
+                        <li><a href="?page3={{ rebounds.next_page_number }}#help"
+                               class="btn btn--small btn--without-border">Następna</a></li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
     </section>
 
