@@ -1,7 +1,11 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Sum
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views import View
+from django.views.generic import CreateView
+
+from donations.forms import RegistrationForm
 from donations.models import Donation, Institution
 
 
@@ -53,6 +57,8 @@ class LoginView(View):
         return render(request, 'login.html')
 
 
-class RegistrationView(View):
-    def get(self, request):
-        return render(request, 'register.html')
+class RegistrationView(CreateView):
+    form_class = RegistrationForm
+    template_name = 'register.html'
+    success_url = reverse_lazy('donations:login')
+
