@@ -2,7 +2,7 @@
     {% if user.is_authenticated %}
         <ul class="nav--actions">
             <li class="logged-user">
-                Witaj ########
+                Witaj {{user.email}}
                 <ul class="dropdown">
                     <li><a href="#">Profil</a></li>
                     <li><a href="#">Ustawienia</a></li>
@@ -12,17 +12,17 @@
         </ul>
     {% else %}
         <ul class="nav--actions">
-            <li><a href="" class="btn btn--small btn--without-border">Zaloguj</a></li>
-            <li><a href="#" class="btn btn--small btn--highlighted">Załóż konto</a></li>
+            <li><a href="{% url 'donations:login' %}" class="btn btn--small btn--without-border">Zaloguj</a></li>
+            <li><a href="{% url 'donations:register' %}" class="btn btn--small btn--highlighted">Załóż konto</a></li>
         </ul>
     {% endif %}
 
     <ul>
-        <li><a href="" class="btn btn--without-border active">Start</a></li>
-        <li><a href="#steps" class="btn btn--without-border">O co chodzi?</a></li>
-        <li><a href="#about-us" class="btn btn--without-border">O nas</a></li>
-        <li><a href="#help" class="btn btn--without-border">Fundacje i organizacje</a></li>
-        <li><a href="form.html" class="btn btn--without-border">Przekaż dary</a></li>
+        <li><a href="{% url 'donations:home' %}" class="btn btn--without-border active">Start</a></li>
+        <li><a href="{% url 'donations:home' %}#steps" class="btn btn--without-border">O co chodzi?</a></li>
+        <li><a href="{% url 'donations:home' %}#about-us" class="btn btn--without-border">O nas</a></li>
+        <li><a href="{% url 'donations:home' %}#help" class="btn btn--without-border">Fundacje i organizacje</a></li>
+        <li><a href="{% url 'donations:add_donation' %}" class="btn btn--without-border">Przekaż dary</a></li>
         <li><a href="#contact" class="btn btn--without-border">Kontakt</a></li>
     </ul>
 </nav>
