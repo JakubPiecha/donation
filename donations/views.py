@@ -1,12 +1,16 @@
+from django.contrib import messages
+from django.contrib.auth import get_user_model, login, authenticate
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.views import LoginView
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Sum
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView
 
-from donations.forms import RegistrationForm
-from donations.models import Donation, Institution
+from donations.forms import RegistrationForm, CustomLoginForm
+from donations.models import Donation, Institution, CustomUser
 
 
 # Create your views here.
@@ -52,13 +56,31 @@ class AddDonationView(View):
         return render(request, 'form.html')
 
 
-class LoginView(View):
+class LoginPageView(View):
+    template_name = 'login.html'
+    form_class = CustomLoginForm
+
     def get(self, request):
-        return render(request, 'login.html')
+        return render(request, self.template_name)
+
+    def post(self, request):
+        form = self.form_class(data=request.POST)
+        username = request.POST.get('username')
+        user = CustomUser.objects.filter(email=username)
+        if not user:
+            return redirect('donations:register')
+        if form.is_valid():
+            user = authenticate(
+                email=form.cleaned_data['username'],
+                password=form.cleaned_data['password']
+            )
+            if user is not None:
+                login(request, user)
+                return redirect('donations:home')
+        return render(request, self.template_name, context={'form': form})
 
 
 class RegistrationView(CreateView):
     form_class = RegistrationForm
     template_name = 'register.html'
     success_url = reverse_lazy('donations:login')
-
