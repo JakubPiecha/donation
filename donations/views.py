@@ -1,16 +1,17 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import CreateView
+from django.views.generic import CreateView, TemplateView
 
-from donations.forms import RegistrationForm, CustomLoginForm
-from donations.models import Donation, Institution, CustomUser
+from donations.forms import RegistrationForm, CustomLoginForm, DonationForm
+from donations.models import Donation, Institution, CustomUser, Category
 
 
 # Create your views here.
@@ -51,9 +52,24 @@ class HomeView(View):
         return render(request, 'index.html', context)
 
 
-class AddDonationView(View):
-    def get(self, request):
-        return render(request, 'form.html')
+class AddDonationView(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('donations:login')
+    form_class = DonationForm
+    success_url = reverse_lazy('donations:confirmation')
+    template_name = 'form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AddDonationView, self).get_context_data(**kwargs)
+        context['institutions'] = Institution.objects.all()
+        context['categories'] = Category.objects.all()
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        print(self.object)
+        return super(AddDonationView, self).form_valid(form)
 
 
 class LoginPageView(View):
@@ -84,3 +100,8 @@ class RegistrationView(CreateView):
     form_class = RegistrationForm
     template_name = 'register.html'
     success_url = reverse_lazy('donations:login')
+
+
+class ConfirmationView(TemplateView):
+    template_name = 'form-confirmation.html'
+
