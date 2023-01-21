@@ -225,22 +225,6 @@ document.addEventListener("DOMContentLoaded", function () {
     })
 
 
-    // const errorStep1 = document.getElementById('error-message1')
-    //
-    // step1.addEventListener('click', function (event) {
-    //         const category = document.querySelectorAll("input[name=categories]:checked")
-    //         const category_checked = Array.from(category).map(i => i.value)
-    //         if (category_checked.length !== 0) {
-    //             step1.setAttribute("disabled", true)
-    //
-    //         } else {
-    //             errorStep1.innerText += 'Nie wybrano kategorii!'
-    //             step1.setAttribute("disabled", false)
-    //         }
-    //     }
-    // )
-
-
     /**
      * Switching between form steps
      */
