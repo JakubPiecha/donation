@@ -105,3 +105,9 @@ class RegistrationView(CreateView):
 class ConfirmationView(TemplateView):
     template_name = 'form-confirmation.html'
 
+
+class ProfileView(LoginRequiredMixin, View):
+
+    def get(self, request):
+        return render(request, 'profile.html')
+
