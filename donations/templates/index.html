@@ -104,8 +104,8 @@
 
                     <div class="col">
                         <div class="text">
-                            {% for id, values in institution.categories.values_list %}
-                                {{ values }},
+                            {% for values in institution.categories.all %}
+                                {{ values }}{% if not forloop.last %},{% endif %}
                             {% endfor %}</div>
                     </div>
                 {% endfor %}
@@ -147,7 +147,7 @@
                     <div class="col">
                         <div class="text">
                             {% for id, values in institution.categories.values_list %}
-                                {{ values }},
+                                {{ values }}{% if not forloop.last %},{% endif %}
                             {% endfor %}</div>
                     </div>
                 {% endfor %}
@@ -155,7 +155,7 @@
             </ul>
 
             <div class="help--slides-pagination">
-                <ul class="help--buttons" data-id="2">
+                <ul class="help--slides-pagination" data-id="2" >
                     {% if organizations.has_previous %}
                         <li><a href="?page2={{ organizations.previous_page_number }}#help"
                                class="btn btn--small btn--without-border">Wstecz</a></li>
@@ -185,7 +185,7 @@
                     <div class="col">
                         <div class="text">
                             {% for id, values in institution.categories.values_list %}
-                                {{ values }},
+                                {{ values }}{% if not forloop.last %},{% endif %}
                             {% endfor %}</div>
                     </div>
                 {% endfor %}
