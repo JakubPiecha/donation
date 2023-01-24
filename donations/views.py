@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Sum
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, TemplateView
@@ -109,8 +109,20 @@ class ConfirmationView(TemplateView):
 class ProfileView(LoginRequiredMixin, View):
 
     def get(self, request):
-        user_donation_data = Donation.objects.filter(user=self.request.user).order_by('pick_up_date', 'pick_up_time')
+        user_donation_data = Donation.objects.filter(user=self.request.user).order_by('is_taken', 'pick_up_date',
+                                                                                      'pick_up_time')
         return render(request, 'profile.html', context={
             'user_donation_data': user_donation_data
-        } )
+        })
 
+
+class ConfirmTakenDonationView(View):
+    def get(self, request, pk):
+        donation = get_object_or_404(Donation, id=pk)
+        return render(request, 'confirm--taken-donation.html', context={'donation': donation})
+
+    def post(self, request, pk):
+        obj = get_object_or_404(Donation, id=pk)
+        obj.is_taken = True
+        obj.save()
+        return redirect('donations:profile')

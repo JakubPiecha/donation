@@ -11,6 +11,6 @@ urlpatterns = [
     path('register/', views.RegistrationView.as_view(), name='register'),
     path('confirmation/', views.ConfirmationView.as_view(), name='confirmation'),
     path('profile/', views.ProfileView.as_view(), name='profile'),
-
+    path('confirm-taken/<int:pk>', views.ConfirmTakenDonationView.as_view(), name='confirm-taken-donation'),
 
 ]
