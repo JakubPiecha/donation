@@ -121,8 +121,6 @@
                                 <input type="radio" name="institution" value="{{ institution.id }}"
                                        data-name='{{ institution.name }}'
                                        data-category="
-
-
                                                {% for category in institution.categories.all %}{{ category.id }}{% if not forloop.last %},{% endif %}{% endfor %}"
                                 />
                                 <span class="checkbox radio"></span>
