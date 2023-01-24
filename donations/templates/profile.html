@@ -5,14 +5,42 @@
 {% endblock %}
 
 {% block content %}
-<header>
-    {% include 'menu.html' %}
-</header>
-<section class="login-page">
-    <h2>{{ user.first_name }} {{ user.last_name }}, email: {{ user.email }} </h2>
+    <header>
+        {% include 'menu.html' %}
+    </header>
+    <section class="help">
+        <h2>Użytkownik: {{ user.first_name }} {{ user.last_name }}</h2>
+        <h2>Email: {{ user.email }} </h2>
 
 
-</section>
+        <h2>Podsumowanie Twoich darowizn:</h2>
+
+        <div >
+            <div >
+                {% for donation in user_donation_data %}
+                    <h1>Oddałeś:</h1>
+                    <ul>
+                        <li>
+                            <h1> Liczba worków: {{ donation.quantity }} </h1>
+                        </li>
+                        <li>
+                            <h1> Dla: {{ donation.institution }} </h1>
+                        </li>
+
+                        <li>
+                            <h1> Zawierające:
+                                {% for category in donation.categories.all %}
+                                 {{ category.name }}{% if not forloop.last %},{% endif %}
+                                {% endfor %}
+                            </h1>
+                        </li>
+                        <li>
+                            <h1> Data przekazania: {{ donation.pick_up_date }} godzina {{ donation.pick_up_time }} </h1>
+                        </li>
+                    </ul>
+                {% endfor %}
+
+    </section>
 
 
 {% endblock %}

@@ -109,5 +109,8 @@ class ConfirmationView(TemplateView):
 class ProfileView(LoginRequiredMixin, View):
 
     def get(self, request):
-        return render(request, 'profile.html')
+        user_donation_data = Donation.objects.filter(user=self.request.user).order_by('pick_up_date', 'pick_up_time')
+        return render(request, 'profile.html', context={
+            'user_donation_data': user_donation_data
+        } )
 
