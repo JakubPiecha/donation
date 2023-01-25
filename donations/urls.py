@@ -12,5 +12,7 @@ urlpatterns = [
     path('confirmation/', views.ConfirmationView.as_view(), name='confirmation'),
     path('profile/', views.ProfileView.as_view(), name='profile'),
     path('confirm-taken/<int:pk>', views.ConfirmTakenDonationView.as_view(), name='confirm-taken-donation'),
+    path('edite-profile/<int:pk>', views.EditProfileView.as_view(), name='edite-profile'),
+    path('change-password/', views.PasswordsChangeView.as_view(), name='change-password'),
 
 ]
