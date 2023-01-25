@@ -46,11 +46,12 @@ class EditeProfileForm(UserChangeForm):
         super(EditeProfileForm, self).__init__(*args, **kwargs)
 
     def clean_password(self):
-        password = self.cleaned_data['validation_pass']
-        valid = check_password(password, self.user.password)
-        if not valid:
-            raise forms.ValidationError('Błędne hasło')
-        return password
+        if 'validation_pass' in self.cleaned_data:
+            password = self.cleaned_data['validation_pass']
+            valid = check_password(password, self.user.password)
+            if not valid:
+                raise forms.ValidationError('Błędne hasło')
+        return self.cleaned_data
 
 class CustomLoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.EmailInput())
