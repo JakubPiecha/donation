@@ -2,15 +2,15 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model, login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, PasswordChangeView
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Sum
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, TemplateView, UpdateView
 
-from donations.forms import RegistrationForm, CustomLoginForm, DonationForm
+from donations.forms import RegistrationForm, CustomLoginForm, DonationForm, EditeProfileForm
 from donations.models import Donation, Institution, CustomUser, Category
 
 
@@ -102,7 +102,7 @@ class RegistrationView(CreateView):
     success_url = reverse_lazy('donations:login')
 
 
-class ConfirmationView(TemplateView):
+class ConfirmationView(LoginRequiredMixin, TemplateView):
     template_name = 'form-confirmation.html'
 
 
@@ -116,7 +116,7 @@ class ProfileView(LoginRequiredMixin, View):
         })
 
 
-class ConfirmTakenDonationView(View):
+class ConfirmTakenDonationView(LoginRequiredMixin, View):
     def get(self, request, pk):
         donation = get_object_or_404(Donation, id=pk)
         return render(request, 'confirm--taken-donation.html', context={'donation': donation})
@@ -126,3 +126,27 @@ class ConfirmTakenDonationView(View):
         obj.is_taken = True
         obj.save()
         return redirect('donations:profile')
+
+
+class EditProfileView(LoginRequiredMixin, UpdateView):
+    model = get_user_model()
+    form_class = EditeProfileForm
+    template_name = 'edite-profile.html'
+    success_url = reverse_lazy('donations:profile')
+
+    def get_form_kwargs(self):
+        kwargs = super(EditProfileView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+
+class PasswordsChangeView(PasswordChangeView):
+    template_name = 'change-password.html'
+    success_url = reverse_lazy('donations:profile')
+
+
+
+
+
+
+
