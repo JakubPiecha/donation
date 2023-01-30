@@ -11,19 +11,23 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os.path
 from pathlib import Path
+import environ
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+environ.Env.read_env(os.path.join(BASE_DIR, 'env', '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-au&m)4f=cdykuq8h0r_864ewe=x8s1@rxe=v_i!h(i1@uqngyy'
+SECRET_KEY = os.environ.get('DJ_SECRET_KEY')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = int(os.environ.get('DJ_DEBUG', default=0))
 
 ALLOWED_HOSTS = []
 
@@ -75,16 +79,15 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'HOST': '127.0.0.1',
-        'NAME': 'charity-donation',
-        'ENGINE': 'django.db.backends.postgresql',
-        'USER': 'postgres',
-        'PASSWORD': 'coderslab',
-        'PORT': '5432',
-    }
+    'default': {}
 }
 
+DATABASES_URL = os.environ.get('DATABASE_URL')
+db_from_env = dj_database_url.config(
+    default=DATABASES_URL, conn_max_age=500, ssl_require=False
+)
+
+DATABASES['default'].update(db_from_env)
 
 
 # Password validation
