@@ -51,6 +51,8 @@ class EditeProfileForm(UserChangeForm):
             valid = check_password(password, self.user.password)
             if not valid:
                 raise forms.ValidationError('Błędne hasło')
+        else:
+            raise forms.ValidationError('To pole jest wymagane')
         return self.cleaned_data
 
 class CustomLoginForm(AuthenticationForm):

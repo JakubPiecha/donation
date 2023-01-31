@@ -90,6 +90,7 @@ class LoginPageView(View):
                 email=form.cleaned_data['username'],
                 password=form.cleaned_data['password']
             )
+            print(user)
             if user is not None:
                 login(request, user)
                 return redirect('donations:home')
@@ -104,9 +105,12 @@ class RegistrationView(CreateView):
 
 class ConfirmationView(LoginRequiredMixin, TemplateView):
     template_name = 'form-confirmation.html'
+    login_url = reverse_lazy('donations:login')
 
 
 class ProfileView(LoginRequiredMixin, View):
+    login_url = reverse_lazy('donations:login')
+
 
     def get(self, request):
         user_donation_data = Donation.objects.filter(user=self.request.user).order_by('is_taken', 'pick_up_date',
@@ -129,6 +133,7 @@ class ConfirmTakenDonationView(LoginRequiredMixin, View):
 
 
 class EditProfileView(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('donations:login')
     model = get_user_model()
     form_class = EditeProfileForm
     template_name = 'edite-profile.html'
