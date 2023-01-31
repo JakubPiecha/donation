@@ -1,17 +1,19 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login, authenticate
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView, PasswordChangeView
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.sites.shortcuts import get_current_site
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.db.models import Sum
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views import View
 from django.views.generic import CreateView, TemplateView, UpdateView
-
 from donations.forms import RegistrationForm, CustomLoginForm, DonationForm, EditeProfileForm
 from donations.models import Donation, Institution, CustomUser, Category
+from donations.tokens import account_activation_token
 
 
 # Create your views here.
@@ -68,7 +70,6 @@ class AddDonationView(LoginRequiredMixin, CreateView):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.save()
-        print(self.object)
         return super(AddDonationView, self).form_valid(form)
 
 
@@ -102,6 +103,39 @@ class RegistrationView(CreateView):
     template_name = 'register.html'
     success_url = reverse_lazy('donations:login')
 
+    def form_valid(self, form):
+        user = form.save()
+        subject = 'Aktywuj swoje konto'
+        message = render_to_string('user-activate.html', {
+            'user': user,
+            'domain': get_current_site(self.request).domain,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': account_activation_token.make_token(user),
+            'protocol': 'https' if self.request.is_secure() else 'http'
+        })
+        user.email_user(subject=subject, message=message)
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            'Sprawdź swój adres email i aktywuj konto')
+        return super().form_valid(form)
+
+def activate(request, uidb64, token):
+    User = get_user_model()
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        messages.success(request, 'Dziękujemy za aktywację konta')
+        return redirect('donations:login')
+    else:
+        messages.error(request, 'Aktywacja nie powiodła się')
+    return redirect('donations:home')
+
 
 class ConfirmationView(LoginRequiredMixin, TemplateView):
     template_name = 'form-confirmation.html'
@@ -118,7 +152,6 @@ class ProfileView(LoginRequiredMixin, View):
         return render(request, 'profile.html', context={
             'user_donation_data': user_donation_data
         })
-
 
 class ConfirmTakenDonationView(LoginRequiredMixin, View):
     def get(self, request, pk):
@@ -148,10 +181,3 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
 class PasswordsChangeView(PasswordChangeView):
     template_name = 'change-password.html'
     success_url = reverse_lazy('donations:profile')
-
-
-
-
-
-
-
