@@ -217,7 +217,7 @@ def test_change_password_view_get(db, client, user):
 
 def test_change_password_view_post(db, client, user):
     client.force_login(user)
-    data ={'old_password': 'Test12345', 'new_password1': 'Test123456', 'new_password2': 'Test123456'}
+    data = {'old_password': 'Test12345', 'new_password1': 'Test123456', 'new_password2': 'Test123456'}
     url = reverse('donations:change-password')
     response = client.post(url, data)
     assert response.status_code == 302
@@ -227,16 +227,17 @@ def test_change_password_view_post(db, client, user):
 
 def test_change_password_view_post_wrong_pass2(db, client, user):
     client.force_login(user)
-    data ={'old_password': 'Test12345', 'new_password1': 'Test123456', 'new_password2': 'Test12'}
+    data = {'old_password': 'Test12345', 'new_password1': 'Test123456', 'new_password2': 'Test12'}
     url = reverse('donations:change-password')
     response = client.post(url, data)
     assert response.status_code == 200
     assert 'Hasła w obu polach nie są zgodne' in response.content.decode('UTF-8')
     assert authenticate(email='test@admin.pl', password='Test12345')
 
+
 def test_change_password_view_post_wrong_old_password(db, client, user):
     client.force_login(user)
-    data ={'old_password': 'Test123456', 'new_password1': 'Test123456', 'new_password2': 'Test123456'}
+    data = {'old_password': 'Test123456', 'new_password1': 'Test123456', 'new_password2': 'Test123456'}
     url = reverse('donations:change-password')
     response = client.post(url, data)
     assert response.status_code == 200
@@ -246,7 +247,7 @@ def test_change_password_view_post_wrong_old_password(db, client, user):
 
 def test_change_password_view_post_no_data(db, client, user):
     client.force_login(user)
-    data ={'old_password': '', 'new_password1': '', 'new_password2': ''}
+    data = {'old_password': '', 'new_password1': '', 'new_password2': ''}
     url = reverse('donations:change-password')
     response = client.post(url, data)
     assert response.status_code == 200

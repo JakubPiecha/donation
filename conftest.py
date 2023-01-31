@@ -6,7 +6,7 @@ from donations.models import Category, Institution, Donation
 @pytest.fixture
 def user(db, django_user_model):
     yield django_user_model.objects.create_user(email="test@admin.pl", first_name="Jan", last_name="Test",
-                                                password='Test12345')
+                                                password='Test12345', is_active=True)
 
 @pytest.fixture
 def category(db):

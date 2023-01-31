@@ -1,0 +1,8 @@
+
+                {% autoescape off %}
+                    Witaj, {{ user.first_name }}
+
+                    Kliknij w podany link w celu aktywacji swojego konta!
+
+                    http://{{ domain }}{% url 'donations:activate' uidb64=uid token=token %}
+                {% endautoescape %}
