@@ -1,12 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.views import PasswordChangeView, PasswordResetView
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views import View
@@ -120,6 +120,7 @@ class RegistrationView(CreateView):
             'Sprawdź swój adres email i aktywuj konto')
         return super().form_valid(form)
 
+
 def activate(request, uidb64, token):
     User = get_user_model()
     try:
@@ -181,3 +182,19 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
 class PasswordsChangeView(PasswordChangeView):
     template_name = 'change-password.html'
     success_url = reverse_lazy('donations:profile')
+
+class PasswordsResetView(PasswordResetView):
+    template_name = 'reset-password.html'
+    email_template_name = 'password_reset_email.txt'
+    success_url = reverse_lazy('donations:reset_password-done')
+
+    def form_valid(self, form):
+        email = self.request.POST.get('email')
+        user = CustomUser.objects.filter(email=email)
+        if not user:
+            messages.error(self.request, 'Użytkownik nie istnieje')
+            return redirect('donations:reset_password')
+        return super(PasswordsResetView, self).form_valid(form)
+
+
+
