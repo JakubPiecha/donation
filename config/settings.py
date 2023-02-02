@@ -142,6 +142,7 @@ EMAIL_FROM = os.environ.get('EMAIL_FROM')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = os.environ.get('EMAIL_PORT')
 EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS')
+PASSWORD_RESET_TIMEOUT = 14000
 
 AUTH_USER_MODEL = 'donations.CustomUser'
 

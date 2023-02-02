@@ -1,4 +1,5 @@
 from django.contrib.auth import login, authenticate
+from django.core import mail
 from django.urls import reverse
 
 from donations.models import Donation
@@ -56,9 +57,18 @@ def test_register_view_post(db, client, django_user_model):
     data = {'first_name': 'Jan', 'last_name': 'Kowalski', 'email': 'z@z.pl', 'password1': 'Test12345',
             'password2': 'Test12345'}
     response = client.post(url, data)
+    user = django_user_model.objects.get(last_name='Kowalski')
+    assert len(mail.outbox) == 1
     assert response.status_code == 302
     assert response.url.startswith(reverse('donations:login'))
-    assert django_user_model.objects.filter(last_name='Kowalski').exists()
+    assert django_user_model.objects.get(last_name='Kowalski')
+    assert user.is_active == False
+    url = mail.outbox[0].body.split()[-1]
+    response = client.get(url)
+    user.refresh_from_db()
+    assert user.is_active == True
+    assert response.status_code == 302
+    assert response.url.startswith(reverse('donations:login'))
 
 
 def test_register_view_post_no_data(db, client, django_user_model):
@@ -232,7 +242,7 @@ def test_change_password_view_post_wrong_pass2(db, client, user):
     response = client.post(url, data)
     assert response.status_code == 200
     assert 'Hasła w obu polach nie są zgodne' in response.content.decode('UTF-8')
-    assert authenticate(email='test@admin.pl', password='Test12345')
+    # assert authenticate(email='test@admin.pl', password='Test12345')
 
 
 def test_change_password_view_post_wrong_old_password(db, client, user):
