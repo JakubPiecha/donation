@@ -83,3 +83,5 @@ class Donation(models.Model):
 
     def __str__(self):
         return f'{self.user} {self.pick_up_date} {self.institution.name}'
+
+

@@ -54,8 +54,8 @@ def test_register_view_get(db, client):
 
 def test_register_view_post(db, client, django_user_model):
     url = reverse('donations:register')
-    data = {'first_name': 'Jan', 'last_name': 'Kowalski', 'email': 'z@z.pl', 'password1': 'Test12345',
-            'password2': 'Test12345'}
+    data = {'first_name': 'Jan', 'last_name': 'Kowalski', 'email': 'z@z.pl', 'password1': 'Test12345!',
+            'password2': 'Test12345!'}
     response = client.post(url, data)
     user = django_user_model.objects.get(last_name='Kowalski')
     assert len(mail.outbox) == 1
@@ -91,7 +91,7 @@ def test_login_view_get(db, client):
 
 def test_login_view_post(db, client, user):
     url = reverse('donations:login')
-    data = {'username': 'test@admin.pl', 'password': 'Test12345'}
+    data = {'username': 'test@admin.pl', 'password': 'Test12345!'}
     response = client.post(url, data)
     assert response.status_code == 302
     assert response.url.startswith(reverse('donations:home'))
@@ -188,7 +188,7 @@ def test_edit_profile_view_get(db, client, user):
 
 def test_edit_profile_view_post(db, client, user, django_user_model):
     client.force_login(user)
-    data = {'first_name': 'Adaś', 'email': 'a@a.pl', 'validation_pass': 'Test12345'}
+    data = {'first_name': 'Adaś', 'email': 'a@a.pl', 'validation_pass': 'Test12345!'}
     url = reverse('donations:edite-profile', kwargs={'pk': user.id})
     response = client.post(url, data)
     assert response.status_code == 302
@@ -227,11 +227,11 @@ def test_change_password_view_get(db, client, user):
 
 def test_change_password_view_post(db, client, user):
     client.force_login(user)
-    data = {'old_password': 'Test12345', 'new_password1': 'Test123456', 'new_password2': 'Test123456'}
+    data = {'old_password': 'Test12345!', 'new_password1': 'Test123456!', 'new_password2': 'Test123456!'}
     url = reverse('donations:change-password')
     response = client.post(url, data)
     assert response.status_code == 302
-    assert authenticate(email='test@admin.pl', password='Test123456')
+    assert authenticate(email='test@admin.pl', password='Test123456!')
     assert response.url.startswith(reverse('donations:profile'))
 
 
@@ -242,7 +242,7 @@ def test_change_password_view_post_wrong_pass2(db, client, user):
     response = client.post(url, data)
     assert response.status_code == 200
     assert 'Hasła w obu polach nie są zgodne' in response.content.decode('UTF-8')
-    # assert authenticate(email='test@admin.pl', password='Test12345')
+    assert authenticate(email='test@admin.pl', password='Test12345!')
 
 
 def test_change_password_view_post_wrong_old_password(db, client, user):
@@ -252,7 +252,7 @@ def test_change_password_view_post_wrong_old_password(db, client, user):
     response = client.post(url, data)
     assert response.status_code == 200
     assert 'Podane stare hasło jest niepoprawne. Proszę podać je jeszcze raz.' in response.content.decode('UTF-8')
-    assert authenticate(email='test@admin.pl', password='Test12345')
+    assert authenticate(email='test@admin.pl', password='Test12345!')
 
 
 def test_change_password_view_post_no_data(db, client, user):
@@ -262,4 +262,4 @@ def test_change_password_view_post_no_data(db, client, user):
     response = client.post(url, data)
     assert response.status_code == 200
     assert 'To pole jest wymagane.' in response.content.decode('UTF-8')
-    assert authenticate(email='test@admin.pl', password='Test12345')
+    assert authenticate(email='test@admin.pl', password='Test12345!')
