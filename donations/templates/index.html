@@ -11,6 +11,11 @@
         {% include 'menu.html' %}
         <div class="slogan container container--90">
             <div class="slogan--item">
+
+                            {% if form.errors %}
+                <h3>{{ form.errors }}</h3>
+            {% endif %}
+
                 <h1>
                     Zacznij pomagać!<br/>
                     Oddaj niechciane rzeczy w zaufane ręce
