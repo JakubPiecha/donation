@@ -1,6 +1,6 @@
 An app to donate things to charity
 
-## Technologies Used
+# Technologies Used
 
 - python 3.10
 
@@ -17,19 +17,19 @@ Users can supports charity institutions.
 * Admin can add/modify other users and database models.
 # Installation:
 Clone the repository
-$ git clone 
+`git clone git@github.com:JakubPiecha/donation.git`
 Create virtual environment to install dependencies and activate it:
-$ python -m venv venv
-$ source venv/bin/activate
+`python -m venv venv`
+`source venv/bin/activate`
 # Install the dependencies:
-(venv)$ pip install -r requirements.txt
+`pip install -r requirements.txt`
 Remember to fill up environmental variables pointed out in env/.env-default.txt. File path has to be env/.env ( same dir as .env-default.txt ).
 
 Make migrations and apply them:
 ```
-$ python manage.py makemigrations home
-$ python manage.py migrate
-$ python manage.py createsuperuser
+python manage.py makemigrations home
+python manage.py migrate
+python manage.py createsuperuser
 ```
 
 Fill up database through admin panel.
