@@ -1,5 +1,8 @@
 An app to donate things to charity
 
+## Technologies Used
+
+- python 3.10
 
 # Donations
 Users can supports charity institutions.
@@ -22,7 +25,12 @@ $ source venv/bin/activate
 Remember to fill up environmental variables pointed out in env/.env-default.txt. File path has to be env/.env ( same dir as .env-default.txt ).
 
 Make migrations and apply them:
+'''
 $ python manage.py makemigrations home
 $ python manage.py migrate
 $ python manage.py createsuperuser
+'''
+![image](https://user-images.githubusercontent.com/114153071/216967391-b20a0378-f246-4582-aa44-bcb650226544.png)
+
+
 Fill up database through admin panel.
