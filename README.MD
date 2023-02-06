@@ -5,8 +5,8 @@ An app to donate things to charity
 Users can supports charity institutions.
 
 # Main assumptions of the project:
-User receives account confirmation email.
-User can reset password if it was forgotten.
+*User receives account confirmation email.
+*User can reset password if it was forgotten.
 User can supply donations to chosen institutions with supported categories.
 User can edit his information, change have to be confirmed with password.
 User can see all of his donations and he confirm if it was taken.
