@@ -1,7 +1,7 @@
 An app to donate things to charity
 
 
-Donations
+# Donations
 Users can supports charity institutions.
 
 Main assumptions of the project:
