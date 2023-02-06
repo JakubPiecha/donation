@@ -19,7 +19,6 @@ class RegistrationForm(UserCreationForm):
             'password2',
         ]
 
-
 class ChangePasswordsForm(PasswordChangeForm):
     class Meta:
         model = get_user_model()
@@ -68,3 +67,10 @@ class DonationForm(forms.ModelForm):
         fields = (
             'quantity', 'categories', 'institution', 'address', 'phone_number', 'city', 'zip_code', 'pick_up_date',
             'pick_up_time', 'pick_up_comment', 'user')
+
+class ContactForm(forms.Form):
+    name = forms.CharField(max_length=50, required=True)
+    surname = forms.CharField(max_length=50, required=True)
+    message = forms.CharField(widget=forms.Textarea, max_length=3000, required=True)
+
+

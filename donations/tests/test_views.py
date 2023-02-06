@@ -37,7 +37,7 @@ def test_add_donation_view_post(db, client, user, institution, category):
     url = reverse('donations:add_donation')
     data = {"quantity": 6, 'institution': institution.id, 'categories': category.id, 'address': 'Test',
             'phone_number': "8888888", 'city': "test", 'zip_code': "11-111", 'pick_up_date': "2023-12-12",
-            'pick_up_time': "12:45", 'user': user.id}
+            'pick_up_time': "12:45", 'user': user.id, 'add': ''}
     response = client.post(url, data)
     assert response.status_code == 302
     assert Donation.objects.filter(phone_number="8888888").exists()
@@ -263,3 +263,73 @@ def test_change_password_view_post_no_data(db, client, user):
     assert response.status_code == 200
     assert 'To pole jest wymagane.' in response.content.decode('UTF-8')
     assert authenticate(email='test@admin.pl', password='Test12345!')
+
+def test_reset_password_view_get(db, client):
+    url = reverse('donations:reset_password')
+    response = client.get(url)
+    assert response.status_code == 200
+    assert '<h2>Zresetuj Hasło</h2>' in response.content.decode('UTF-8')
+    assert 'reset-password.html' in (t.name for t in response.templates)
+
+def test_reset_password_view_post_no_data(db, client):
+    data = {'email': '',}
+    url = reverse('donations:reset_password')
+    response = client.post(url, data)
+    assert response.status_code == 200
+    assert 'To pole jest wymagane' in response.content.decode('UTF-8')
+    assert 'reset-password.html' in (t.name for t in response.templates)
+
+def test_reset_password_view_post_no_user(db, client):
+    data = {'email': 'a@zzzz.pl'}
+    url = reverse('donations:reset_password')
+    response = client.post(url, data)
+    assert response.status_code == 302
+    assert response.url.startswith(reverse('donations:reset_password'))
+
+def test_reset_password_view_post(db, client, user):
+    data = {'email': 'test@admin.pl',}
+    url = reverse('donations:reset_password')
+    response = client.post(url, data)
+    assert response.status_code == 302
+    assert response.url.startswith(reverse('donations:reset_password-done'))
+    assert authenticate(email='test@admin.pl', password='Test12345!')
+    assert len(mail.outbox) == 1
+    assert "w celu zrestartowania swojego hasła!" in mail.outbox[0].body
+    url = mail.outbox[0].body.split()[-1]
+    response = client.get(url)
+    assert response.status_code == 302
+
+
+def test_reset_password_done_view_get(db, client):
+    url = reverse('donations:reset_password-done')
+    response = client.get(url)
+    assert response.status_code == 200
+    assert '<h2>Potwierdzenie zresetowania hasła zostało wysłane </h2>' in response.content.decode('UTF-8')
+    assert 'reset-password-done.html' in (t.name for t in response.templates)
+
+def test_reset_password_compleat_view_get(db, client):
+    url = reverse('donations:reset-password-complete')
+    response = client.get(url)
+    assert response.status_code == 200
+    assert '<h2>Resetowanie hasła zakończone </h2>' in response.content.decode('UTF-8')
+    assert 'reset-password-complete.html' in (t.name for t in response.templates)
+
+def test_form_contact_view_post(db, client, staff):
+    url = reverse('donations:home')
+    data = {'name': 'Jan', 'surname': 'Kowalski', 'message': 'eloelo', 'contact': '',}
+    response = client.post(url, data)
+    assert response.status_code == 302
+    assert len(mail.outbox) == 1
+    assert response.url.startswith(reverse('donations:home'))
+    assert "eloelo" in mail.outbox[0].body
+
+
+def test_form_contact_view_post_no_data(db, client, staff):
+    url = reverse('donations:home')
+    data = {'name': 'Jan', 'surname': 'Kowalski', 'message': '', 'contact': '',}
+    response = client.post(url, data)
+    assert response.status_code == 200
+    assert len(mail.outbox) == 0
+    assert 'To pole jest wymagane.' in response.content.decode('UTF-8')
+
+

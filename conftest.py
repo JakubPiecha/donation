@@ -27,4 +27,7 @@ def donation(db, category, institution, user):
     donation.categories.add(category)
     yield donation
 
-
+@pytest.fixture
+def staff(db, django_user_model):
+    yield django_user_model.objects.create_user(email="staff@admin.pl", first_name="Jan", last_name="Test",
+                                                password='Test12345!', is_active=True, is_staff=True)
