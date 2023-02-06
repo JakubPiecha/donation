@@ -5,7 +5,7 @@ An app to donate things to charity
 - python 3.10
 
 # Donations
-Users can supports charity institutions.
+Users can support charity institutions.
 
 # Main assumptions of the project:
 * User receives account confirmation email.
