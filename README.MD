@@ -25,12 +25,13 @@ $ source venv/bin/activate
 Remember to fill up environmental variables pointed out in env/.env-default.txt. File path has to be env/.env ( same dir as .env-default.txt ).
 
 Make migrations and apply them:
-'''
+```
 $ python manage.py makemigrations home
 $ python manage.py migrate
+
 $ python manage.py createsuperuser
-'''
-![image](https://user-images.githubusercontent.com/114153071/216967391-b20a0378-f246-4582-aa44-bcb650226544.png)
+```
+![image](https://user-images.githubusercontent.com/114153071/216968039-c42a74a3-b5c3-46ae-ad32-a5955ee83ff1.png)
 
 
 Fill up database through admin panel.
