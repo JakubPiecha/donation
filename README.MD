@@ -13,6 +13,7 @@ Users can supports charity institutions.
 * User can supply donations to chosen institutions with supported categories.
 * User can edit his information, change have to be confirmed with password.
 * User can see all of his donations and he confirm if it was taken.
+* Anyone can send a message using the contact form.
 * Admin can add/modify other users and database models.
 # Installation:
 Clone the repository
@@ -28,10 +29,11 @@ Make migrations and apply them:
 ```
 $ python manage.py makemigrations home
 $ python manage.py migrate
-
 $ python manage.py createsuperuser
 ```
+
+Fill up database through admin panel.
 ![image](https://user-images.githubusercontent.com/114153071/216968039-c42a74a3-b5c3-46ae-ad32-a5955ee83ff1.png)
 
 
-Fill up database through admin panel.
+
