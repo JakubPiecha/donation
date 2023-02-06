@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Profil
+{% endblock %}
+
+{% block content %}
+    <header>
+        {% include 'menu.html' %}
+    </header>
+    <section class="help">
+
+        <h2>Potwierdzasz przekazanie darowizny: </h2>
+
+        <div>
+
+            <div>
+                <ul>
+                    <li>
+                        <h1> Liczba worków: {{ donation.quantity }} </h1>
+                    </li>
+                    <li>
+                        <h1> Dla: {{ donation.institution }} </h1>
+                    </li>
+                    <li>
+                        <h1> Zawierające:
+                            {% for category in donation.categories.all %}
+                                {{ category.name }}{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        </h1>
+                    </li>
+                    <li>
+                        <h1> Planowana data przekazania: {{ donation.pick_up_date }}
+                            godzina {{ donation.pick_up_time }} </h1>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="button" class="btn btn--large "><a href="{% url 'donations:profile' %}">Rezygnuję</a></button>
+            <button type="submit" class="btn btn--large ">Potwierdź</button>
+        </form>
+    </section>
+
+
+{% endblock %}
