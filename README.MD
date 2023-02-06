@@ -16,14 +16,15 @@ Users can supports charity institutions.
 * Anyone can send a message using the contact form.
 * Admin can add/modify other users and database models.
 # Installation:
-Clone the repository
-`git clone git@github.com:JakubPiecha/donation.git`
-Create virtual environment to install dependencies and activate it:
-`python -m venv venv`
-`source venv/bin/activate`
+- Clone the repository
+- `git clone git@github.com:JakubPiecha/donation.git`
+- Create virtual environment to install dependencies and activate it:
+- `python -m venv venv`
+- `source venv/bin/activate`
 # Install the dependencies:
-`pip install -r requirements.txt`
-Remember to fill up environmental variables pointed out in env/.env-default.txt. File path has to be env/.env ( same dir as .env-default.txt ).
+- `pip install -r requirements.txt`
+- Remember to fill up environmental variables pointed out in env/.env-default.txt.
+- File path has to be env/.env ( same dir as .env-default.txt ).
 
 Make migrations and apply them:
 ```
