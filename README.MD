@@ -1,6 +1,7 @@
 An app to donate things to charity
 
-![image](https://user-images.githubusercontent.com/114153071/217193640-5f11eeb8-a8d2-4e78-a0c2-f3536d815a94.png)
+![Zrzut ekranu z 2023-02-07 09-33-20](https://user-images.githubusercontent.com/114153071/217201065-04cb1093-b382-446b-a1ed-8bb65fc2fce0.png)
+
 
 
 # Technologies Used
