@@ -1,5 +1,8 @@
 An app to donate things to charity
 
+![image](https://user-images.githubusercontent.com/114153071/217193640-5f11eeb8-a8d2-4e78-a0c2-f3536d815a94.png)
+
+
 # Technologies Used
 
 - python 3.10
