@@ -12,7 +12,7 @@ An app to donate things to charity
 # Technologies Used
 
 - python 3.10
-- Django==4.1.5
+- Django 4.1.5
 
 
 # Donations
