@@ -1,8 +1,17 @@
 An app to donate things to charity
+![image](https://user-images.githubusercontent.com/114153071/216968039-c42a74a3-b5c3-46ae-ad32-a5955ee83ff1.png)
+
+
+# TESTS COVERAGE:
+
+![Zrzut ekranu z 2023-02-07 09-33-20](https://user-images.githubusercontent.com/114153071/217201065-04cb1093-b382-446b-a1ed-8bb65fc2fce0.png)
+
 
 # Technologies Used
 
 - python 3.10
+- Django==4.1.5
+
 
 # Donations
 Users can support charity institutions.
@@ -34,7 +43,6 @@ python manage.py createsuperuser
 ```
 
 Fill up database through admin panel.
-![image](https://user-images.githubusercontent.com/114153071/216968039-c42a74a3-b5c3-46ae-ad32-a5955ee83ff1.png)
 
 
 
