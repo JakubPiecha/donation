@@ -39,9 +39,8 @@ Users can support charity institutions.
 
 Make migrations and apply them:
 ```
-python manage.py makemigrations home
 python manage.py migrate
-python manage.py createsuperuser
+python manage.py runserver
 ```
 
 Fill up database through admin panel.
