@@ -7,6 +7,7 @@ from django.db import models
 
 
 class CustomUserManager(BaseUserManager):
+    use_in_migrations = True
     def create_user(self, email, password=None, **extra_fields):
         if not email:
             raise ValueError(_('The Email must be set'))
@@ -40,6 +41,7 @@ class CustomUser(AbstractUser):
 
     def email_user(self, subject, message, from_email=None, **kwargs):
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
 
     def __str__(self):
         return self.email

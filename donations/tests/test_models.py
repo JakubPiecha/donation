@@ -5,7 +5,7 @@ from donations.models import Category, Institution, Donation
 
 def test_create_users(user, django_user_model):
     users = django_user_model.objects.all()
-    assert len(users) == 1
+    assert len(users) == 2
     assert django_user_model.objects.filter(email='test@admin.pl').exists()
 
 
